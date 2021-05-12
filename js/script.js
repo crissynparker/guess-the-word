@@ -12,7 +12,7 @@ const guessedLetters = [];
 let remainingGuesses = 8;
 
 const getWord = async function () {
-const response = await fetch "https://gist.githubusercontent.com/skillcrush-curriculum/7061f1d4d3d5bfe47efbfbcfe42bf57e/raw/5ffc447694486e7dea686f34a6c085ae371b43fe/words.txt"
+const response = await fetch ("https://gist.githubusercontent.com/skillcrush-curriculum/7061f1d4d3d5bfe47efbfbcfe42bf57e/raw/5ffc447694486e7dea686f34a6c085ae371b43fe/words.txt");
 const word = await response.text();
 const wordArray = words.split("\n");
 const randomIndex = Math.floor(Math.random() * wordArray.length);
@@ -23,9 +23,9 @@ placeholder(word);
 getWord();
 
 const placeholder = function (word) {
-    const placeholderLetters [] ;
+    const placeholderLetters = [] ;
     for (const letter of word) {
-        console.log(letter);
+        //console.log(letter);
         placeHolderLetters.push("●");
     }
     wordInProgress.innerText = placeholderLetters.join("");
@@ -96,7 +96,7 @@ checkIfWin();
 };
 
  
-const updateRemainingGuesses = function (guess) {
+const updateGuessesRemaining = function (guess) {
     const upperWord = word.toUpperCase();
     if (upperWord.includes(guess)) {
         // womp womp - bad guess, lose a chance
@@ -104,7 +104,6 @@ const updateRemainingGuesses = function (guess) {
         remainingGuesses -= 1;
         } else {
             message.innerText =' Good guess! The word has the letter ${guess}.';
-        }
 }
 
 if (remainingGuesses === 0) {
@@ -123,3 +122,25 @@ const checkIfWin = function () {
     }
 };
 
+const startOver = function () {
+guessButton.classList.add("hide");
+remainingGuessesElement.classList.add("hide");
+guessedLettersElement.classList.add("hide");
+};
+
+playAgainButton.addEventListener("click", function () {
+    message.classList.remove("win");
+    guessedLetters = [];
+    remainingGuesses = 8;
+    remainingGuessesSpan.innerText = '${remainingGuesses} guesses';
+    guessedLetters.innerHTML ="";
+    message.innerText ="";
+
+    getWord();
+
+    guessLetterButton.classList.remove("hide");
+    playAgainButton.classList.add("hide");
+    remainingGuessesElement.classList.remove("hide");
+    guessedLettersElement.classList.remove("hide");
+
+});
